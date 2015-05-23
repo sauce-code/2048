@@ -72,7 +72,7 @@ public class Board {
 		this.score = SCORE_INIT;
 		this.movesDone = MOVES_DONE_INIT;
 		this.tiles = new Tile[rows][columns];
-		initField();
+		initTiles();
 		spawn();
 		spawn();
 	}
@@ -80,7 +80,7 @@ public class Board {
 	/**
 	 * Initialisiert das Spielfeld.
 	 */
-	private void initField() {
+	private void initTiles() {
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				tiles[row][column] = new Tile();
@@ -156,6 +156,19 @@ public class Board {
 		switch (direction) {
 		case UP:
 			for (int column = 0; column < columns; column++) {
+				LinkedList<Tile> list = new LinkedList<Tile>();
+				for (int row = 0; row < rows; row++) {
+					list.add(tiles[column][row]);
+				}
+				if (move(list)) {
+					ret = true;
+					for (int row = 0; row < rows; row++) {
+						tiles[column][row] = list.poll();
+					}
+				}
+			}
+			/*
+			for (int column = 0; column < columns; column++) {
 				int a = -1;
 				for (int row = 0; row < rows; row++) {
 					if (tiles[column][row].getValue() != 0) {
@@ -174,16 +187,50 @@ public class Board {
 					}
 				}
 			}
+			*/
 			// TODO
 			break;
 		case RIGHT:
-			// TODO
+			for (int row = 0; row < rows; row++) {
+				LinkedList<Tile> list = new LinkedList<Tile>();
+				for (int column = columns - 1; column >= 0; column--) {
+					list.add(tiles[column][row]);
+				}
+				if (move(list)) {
+					ret = true;
+					for (int column = columns - 1; column >= 0; column--) {
+						tiles[column][row] = list.poll();
+					}
+				}
+			}
 			break;
 		case DOWN:
-			// TODO
+			for (int column = 0; column < columns; column++) {
+				LinkedList<Tile> list = new LinkedList<Tile>();
+				for (int row = rows - 1; row >= 0; row--) {
+					list.add(tiles[column][row]);
+				}
+				if (move(list)) {
+					ret = true;
+					for (int row = rows - 1; row >= 0; row--) {
+						tiles[column][row] = list.poll();
+					}
+				}
+			}
 			break;
 		case LEFT:
-			// TODO
+			for (int row = 0; row < rows; row++) {
+				LinkedList<Tile> list = new LinkedList<Tile>();
+				for (int column = 0; column < columns; column++) {
+					list.add(tiles[column][row]);
+				}
+				if (move(list)) {
+					ret = true;
+					for (int column = 0; column < columns; column++) {
+						tiles[column][row] = list.poll();
+					}
+				}
+			}
 			break;
 		default:
 			// TODO
@@ -194,6 +241,11 @@ public class Board {
 			movesDone++;
 		}
 		return ret;
+	}
+
+	// TODO
+	private boolean move(LinkedList<Tile> tiles) {
+		return false;
 	}
 
 	/**
