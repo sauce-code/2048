@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -168,26 +169,15 @@ public class Board {
 				}
 			}
 			/*
-			for (int column = 0; column < columns; column++) {
-				int a = -1;
-				for (int row = 0; row < rows; row++) {
-					if (tiles[column][row].getValue() != 0) {
-						int temp = tiles[column][row].getValue();
-						tiles[column][row].setValue(0);
-						if (a == -1) {
-							tiles[column][a + 1].setValue(temp);
-						} else if (a != row) {
-							if (temp == (tiles[column][a].getValue())) {
-								grow(tiles[column][a]);
-							} else {
-								tiles[column][a + 1].setValue(temp);
-							}
-						}
-						a++;
-					}
-				}
-			}
-			*/
+			 * for (int column = 0; column < columns; column++) { int a = -1;
+			 * for (int row = 0; row < rows; row++) { if
+			 * (tiles[column][row].getValue() != 0) { int temp =
+			 * tiles[column][row].getValue(); tiles[column][row].setValue(0); if
+			 * (a == -1) { tiles[column][a + 1].setValue(temp); } else if (a !=
+			 * row) { if (temp == (tiles[column][a].getValue())) {
+			 * grow(tiles[column][a]); } else { tiles[column][a +
+			 * 1].setValue(temp); } } a++; } } }
+			 */
 			// TODO
 			break;
 		case RIGHT:
@@ -219,22 +209,25 @@ public class Board {
 			}
 			break;
 		case LEFT:
-			for (int row = 0; row < rows; row++) {
-				LinkedList<Tile> list = new LinkedList<Tile>();
-				for (int column = 0; column < columns; column++) {
-					list.add(tiles[column][row]);
-				}
-				if (move(list)) {
-					ret = true;
-					for (int column = 0; column < columns; column++) {
-						tiles[column][row] = list.poll();
-					}
-				}
+			int a = 0;
+			for (int b = 0; b < columns; b++) {
+				
 			}
+//			for (int row = 0; row < rows; row++) {
+//				LinkedList<Tile> list = new LinkedList<Tile>();
+//				for (int column = 0; column < columns; column++) {
+//					list.add(tiles[column][row]);
+//				}
+//				if (move(list)) {
+//					ret = true;
+//					for (int column = 0; column < columns; column++) {
+//						tiles[column][row] = list.poll();
+//					}
+//				}
+//			}
 			break;
 		default:
-			// TODO
-			break;
+			throw new IllegalArgumentException("no such direction");
 		}
 		if (ret) {
 			spawn();
@@ -245,6 +238,9 @@ public class Board {
 
 	// TODO
 	private boolean move(LinkedList<Tile> tiles) {
+		boolean ret = false;
+		int size = tiles.size();
+		
 		return false;
 	}
 
@@ -341,10 +337,12 @@ public class Board {
 		return false;
 	}
 
+	@Override
 	public Board clone() {
 		return new Board(this);
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("score: ");
